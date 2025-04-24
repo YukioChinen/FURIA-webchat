@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function FuriaChatBot() {
-  const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Fala, fã da FURIA! Em que posso te ajudar hoje? 🐺🔥' },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [askedForPlayers, setAskedForPlayers] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -16,94 +17,204 @@ export default function FuriaChatBot() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    const userMessage = { sender: 'user', text: input };
-    const botReply = getBotResponse(input);
-    setMessages((prev) => [...prev, userMessage, { sender: 'bot', text: botReply }]);
+  const handleSend = async () => {
+    const trimmedInput = input.trim();
+    if (!trimmedInput || isLoading) return;
+
+    const userMessage = { sender: 'user', text: trimmedInput };
+    const currentMessages = [...messages, userMessage];
+    setMessages(currentMessages);
     setInput('');
-  };
+    setIsLoading(true);
+    setError(null);
 
-  const getBotResponse = (message: string): string => {
-    const lower = message.toLowerCase();
+    const historyForBackend = currentMessages.map(msg => ({
+        sender: msg.sender,
+        text: msg.text
+    }));
 
-    if (
-      lower.includes('jogadores') ||
-      lower.includes('quais são os jogadores?') ||
-      lower.includes('quem são os jogadores?')
-    ) {
-      setAskedForPlayers(true);
-      return 'Escolha o jogo para ver os jogadores:\n1. LOL\n2. Valorant\n3. CS2\n4. Rocket League';
+    try {
+      const response = await fetch('http://localhost:5001/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          history: historyForBackend,
+          message: trimmedInput,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        const errorMessage = errorData?.reply || errorData?.error || 'Erro na resposta da API';
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      const botReply = data.reply || 'Desculpe, não consegui obter uma resposta.';
+      setMessages(prev => [...prev, { sender: 'bot', text: botReply }]);
+
+    } catch (err: any) {
+      console.error("Erro ao buscar resposta do backend:", err);
+      const displayError = err.message || 'Falha ao conectar com o servidor.';
+      setError(displayError);
+      setMessages(prev => [...prev, {
+          sender: 'bot', 
+          text: `Desculpe, ocorreu um erro: ${displayError}. Tente novamente.`
+      }]);
+    } finally {
+      setIsLoading(false);
+      setTimeout(() => {
+        inputRef.current?.focus(); 
+      }, 0);
     }
-
-    if (askedForPlayers) {
-      setAskedForPlayers(false);
-      if (lower.includes('lol') || lower.includes('league of legends') || lower.includes('1'))
-        return 'Os jogadores de LOL são: Guigo (toplaner), Tatu (Jungler), Tutsz (midlaner), Ayu (adcarry) e JoJo (support).';
-      if (lower.includes('valorant') || lower.includes('2'))
-        return 'Os jogadores de Valorant são: raafa, heat, havoc, Khalil, pryze e mwzera.';
-      if (
-        lower.includes('cs2') ||
-        lower.includes('counter strike') ||
-        lower.includes('cs') ||
-        lower.includes('counter strike 2') ||
-        lower.includes('3')
-      )
-        return 'Os jogadores de CS2 são: FalleN, KSCERATO, yuurih, MOLODOY, YEKINDAR, skullz (reserva) e chelo (reserva).';
-      if (lower.includes('rocket league') || lower.includes('rl') || lower.includes('4'))
-        return 'Os jogadores de Rocket League são: yANXNZ, Lostt, DRUFINHO e STL (coach).';
-    }
-
-    if (lower.includes('próximo jogo'))
-      return 'O próximo jogo da FURIA é dia 25/04 contra a NAVI, às 18h (BRT).';
-    if (lower.includes('conquistas'))
-      return 'A FURIA já venceu vários torneios regionais e chegou ao top 3 em Majors!';
-    if (lower.includes('quiz'))
-      return 'Pergunta: Quem é o IGL da FURIA? (a) arT (b) KSCERATO (c) FalleN';
-
-    return 'Hmm... não entendi muito bem. Pergunte algo como "jogadores", "próximo jogo" ou "conquistas".';
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-zinc-900 text-white">
+    <div className="h-[calc(100vh-4rem)] w-full flex flex-col bg-black text-white font-sans overflow-hidden">
       {/* Header */}
-      <div className="bg-zinc-800 text-xl font-semibold p-4 shadow-md text-center">
-        FURIA ChatBot 🐺
-      </div>
+      <motion.div 
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-zinc-900/80 backdrop-blur-sm p-4 shadow-lg border-b border-blue-600/50 flex items-center justify-center gap-3 z-10"
+      >
+        <img 
+          src="https://upload.wikimedia.org/wikipedia/pt/f/f9/Furia_Esports_logo.png" 
+          alt="FURIA Logo" 
+          className="h-8 w-auto filter"
+        />
+        <span className="text-xl font-bold text-white tracking-wide">FURIA CS ChatBot</span>
+      </motion.div>
 
       {/* Chat area */}
-      <div className="flex-1 overflow-y-auto space-y-4 p-4">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`text-sm p-2 rounded-xl w-fit max-w-[75%] ${
-              msg.sender === 'bot'
-                ? 'bg-zinc-800 text-left'
-                : 'bg-purple-600 ml-auto text-right'
-            }`}
-          >
-            {msg.text}
-          </div>
-        ))}
+      <div className="flex-1 overflow-y-auto space-y-3 p-4 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-black">
+        <AnimatePresence initial={false}>
+          {messages.map((msg, i) => (
+            <motion.div
+              key={i}
+              layout
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ 
+                opacity: { duration: 0.2 },
+                layout: { type: "spring", bounce: 0.3, duration: 0.3 }
+              }}
+              className={`flex ${
+                msg.sender === 'bot' ? 'justify-start' : 'justify-end'
+              }`}
+            >
+              <div
+                className={`text-sm p-3 rounded-lg max-w-[75%] shadow-md transition-all duration-300 break-words ${
+                  msg.sender === 'bot'
+                    ? 'bg-zinc-800 text-gray-200 rounded-bl-none'
+                    : 'bg-blue-600 text-white rounded-br-none'
+                }`}
+              >
+                {msg.text.split(/(\s)/).map((part, index) => {
+                  const urlRegex = /^(https?|ftp):\/\/([-\w+&@#\/%?=~_|!:,.;]*[-\w+&@#\/%=~_|])/;
+                  const match = part.match(urlRegex);
+                  
+                  if (match) {
+                    let url = match[0];
+                    let trailingChars = '';
+
+                    while (/[.,!?)(\]\[]$/.test(url)) {
+                      trailingChars = url.slice(-1) + trailingChars;
+                      url = url.slice(0, -1);
+                    }
+                    
+                    if (url) {
+                      return (
+                        <span key={index}>
+                          <a 
+                            href={url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-300 hover:underline"
+                          >
+                            {url} 
+                          </a>
+                          {trailingChars}
+                        </span>
+                      );
+                    } else {
+                      part = match[0];
+                    }
+                  }
+
+                  return (
+                    <span key={index}>
+                      {part.split('**').map((boldPart, boldIndex) => 
+                        boldIndex % 2 === 1 ? <strong key={boldIndex}>{boldPart}</strong> : boldPart
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
+            </motion.div>
+          ))}
+          {isLoading && (
+             <motion.div
+                key="loading"
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ opacity: { duration: 0.2 }, layout: { type: "spring", bounce: 0.3, duration: 0.3 } }}
+                className="flex justify-start"
+              >
+                <div className="text-sm p-3 rounded-lg max-w-[75%] shadow-md bg-zinc-800 text-gray-200 rounded-bl-none flex gap-1.5 items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></span>
+                </div>
+             </motion.div>
+          )}
+        </AnimatePresence>
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input area */}
-      <div className="flex gap-2 p-4 border-t border-zinc-700">
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="flex items-center gap-3 p-4 border-t border-blue-600/50 bg-zinc-900/80 backdrop-blur-sm z-10"
+      >
         <input
-          placeholder="Digite sua mensagem..."
+          ref={inputRef}
+          placeholder="Pergunte sobre o time de CS da FURIA..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-          className="flex-1 p-2 bg-zinc-800 text-white rounded-xl outline-none"
+          disabled={isLoading}
+          className="flex-1 p-3 bg-zinc-800 text-white rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 placeholder-zinc-500 disabled:opacity-50"
         />
-        <button
+        <motion.button
+          whileHover={{ scale: isLoading ? 1 : 1.05 }}
+          whileTap={{ scale: isLoading ? 1 : 0.95 }}
           onClick={handleSend}
-          className="bg-purple-700 text-white px-4 py-2 rounded-xl hover:bg-purple-800"
+          disabled={!input.trim() || isLoading}
+          className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
-          Enviar
-        </button>
-      </div>
+          {isLoading ? (
+            <>
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              <span>Aguarde</span>
+            </>
+          ) : (
+            <>
+              <span>Enviar</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+              </svg>
+            </>
+          )}
+        </motion.button>
+      </motion.div>
     </div>
   );
 }
