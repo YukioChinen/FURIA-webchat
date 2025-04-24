@@ -34,16 +34,6 @@ export default function AboutPage() {
               ou alguém que começou a torcer agora, esperamos que este chatbot seja útil e divertido!
             </p>
           </section>
-
-          <section>
-            <h2 className="text-2xl font-semibold text-blue-400 mb-2">Timeline (Exemplo)</h2>
-            <ul className="list-disc list-inside space-y-1 text-gray-400">
-              <li>**Abril 2025:** Ideia inicial e configuração do projeto.</li>
-              <li>**Abril 2025:** Implementação do frontend base e backend com API Gemini.</li>
-              <li>**Abril 2025:** Adição de roteamento e páginas Home/Sobre.</li>
-              <li>**Próximos Passos:** Melhorias contínuas na IA e adição de novas funcionalidades!</li>
-            </ul>
-          </section>
         </div>
       </div>
     </div>
