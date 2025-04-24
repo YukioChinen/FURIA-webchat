@@ -20,7 +20,7 @@ export default function AboutPage() {
           <section>
             <h2 className="text-2xl font-semibold text-blue-400 mb-2">Desenvolvimento</h2>
             <p>
-              Desenvolvido por [Seu Nome ou Nome da Equipe - substitua!] utilizando tecnologias modernas como React, 
+              Desenvolvido por Enzo Yukio Chinen utilizando tecnologias modernas como React, 
               Tailwind CSS para estilização, e a poderosa API do Google Gemini para 
               gerar respostas inteligentes e contextuais. O backend foi construído com Node.js e Express.
             </p>
