@@ -18,17 +18,22 @@ export default function NavBar() {
                 alt="FURIA Logo" 
                 className="h-8 w-auto filter" // Keep logo white
               />
-              <span className="text-white font-bold">FURIA CS</span>
+              <img 
+                src="https://furiagg.fbitsstatic.net/sf/img/logo-furia.svg?theme=main&v=202503171541" 
+                alt="FURIA Nome" 
+                className="h-5 w-auto filter invert" // Keep logo white
+              />
+              {/* <span className="text-white font-bold">FURIA</span> */}
             </Link>
           </div>
           
           {/* Navigation Links */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+          <div >
+            <div className="ml-auto flex items-baseline space-x-2 sm:space-x-4">
               <NavLink 
                 to="/" 
                 className={({ isActive }) => 
-                  `${isActive ? activeClassName : inactiveClassName} px-3 py-2 rounded-md text-sm font-medium transition-colors`
+                  `${isActive ? activeClassName : inactiveClassName} px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors`
                 }
               >
                 Home
@@ -36,7 +41,7 @@ export default function NavBar() {
               <NavLink 
                 to="/chat" 
                 className={({ isActive }) => 
-                  `${isActive ? activeClassName : inactiveClassName} px-3 py-2 rounded-md text-sm font-medium transition-colors`
+                  `${isActive ? activeClassName : inactiveClassName} px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors`
                 }
               >
                 ChatBot
@@ -44,7 +49,7 @@ export default function NavBar() {
               <NavLink 
                 to="/sobre" 
                 className={({ isActive }) => 
-                  `${isActive ? activeClassName : inactiveClassName} px-3 py-2 rounded-md text-sm font-medium transition-colors`
+                  `${isActive ? activeClassName : inactiveClassName} px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors`
                 }
               >
                 Sobre
