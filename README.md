@@ -1,6 +1,11 @@
 # FURIA-webchat-frontend
 
-Este é o front-end de um desafio técnico para uma vaga de estágio. O projeto consiste em uma interface web interativa que utiliza um chatbot especializado na organização de e-sports FURIA.
+Este é o front-end de um desafio técnico. O projeto consiste em uma interface web interativa que utiliza um chatbot especializado na organização de e-sports FURIA.
+
+**Links Úteis:**
+- **Repositório do Código:** [https://github.com/YukioChinen/FURIA-webchat-frontend](FURIA Webchat Frontend)
+- **Repositório do Backend:** [https://github.com/YukioChinen/FURIA-webchat-backend](FURIA Webchat Backend)
+- **Site Online (Vercel):** [https://furia-webchat-frontend.vercel.app/](FURIA Chatbot)
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -14,7 +19,7 @@ Este é o front-end de um desafio técnico para uma vaga de estágio. O projeto 
 ## 📋 Funcionalidades
 
 - **Interface amigável**: Design moderno e responsivo com a temática da FURIA.
-- **Chatbot integrado**: Comunicação com o back-end para respostas em tempo real.
+- **Chatbot integrado**: Comunicação com o back-end (hospedado no Render) para respostas em tempo real.
 - **Navegação intuitiva**: Páginas dedicadas para Home, ChatBot e Sobre o Projeto.
 - **Animações suaves**: Experiência de usuário aprimorada com transições animadas.
 
@@ -22,31 +27,29 @@ Este é o front-end de um desafio técnico para uma vaga de estágio. O projeto 
 ```
 FURIA-webchat-frontend/
 ├── src/
-│   ├── components/ # Componentes reutilizáveis
-│   │   ├── FuriaChatBot.tsx # Componente do chatbot
-│   │   └── NavBar.tsx # Barra de navegação
-│   ├── config/ # Configurações
-│   │   └── openai.ts # Configuração da API OpenAI
-│   ├── pages/ # Páginas do projeto
-│   │   ├── HomePage.tsx # Página inicial
-│   │   └── AboutPage.tsx # Página sobre o projeto
-│   ├── App.tsx # Componente principal
-│   ├── main.tsx # Ponto de entrada do React
-│   └── index.css # Estilos globais
-├── index.html # Arquivo HTML principal
-├── tailwind.config.cjs # Configuração do Tailwind CSS
-├── postcss.config.cjs # Configuração do PostCSS
-└── package.json # Dependências e scripts do projeto
+│   ├── components/
+│   │   ├── FuriaChatBot.tsx
+│   │   └── NavBar.tsx
+│   ├── pages/
+│   │   ├── HomePage.tsx
+│   │   └── AboutPage.tsx
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── .env
+├── index.html
+├── tailwind.config.cjs
+├── postcss.config.cjs
+└── package.json
 ```
 
-## 🔧 Configuração e Execução
+## 🔧 Configuração e Execução Local (Opcional)
 
 ### Pré-requisitos
 
 - Node.js instalado na máquina.
-- Back-end configurado e em execução.
 
-### Passos para executar o projeto
+### Passos para executar o projeto localmente
 
 1. Clone o repositório:
    ```
@@ -59,9 +62,10 @@ FURIA-webchat-frontend/
    npm install
    ```
 
-3. Configure as variáveis de ambiente no arquivo `.env`:
+3. Crie um arquivo `.env` na raiz do projeto e configure a variável de ambiente para apontar para o backend:
    ```
-   VITE_OPENAI_API_KEY=SuaChaveDeAPI
+   # Exemplo, use a URL correta do backend no Render
+   VITE_API_URL=https://your-backend-url.onrender.com 
    ```
 
 4. Inicie o servidor de desenvolvimento:
@@ -69,7 +73,7 @@ FURIA-webchat-frontend/
    npm run dev
    ```
 
-5. Acesse o front-end em `http://localhost:5173`.
+5. Acesse o front-end em `http://localhost:5173` (ou a porta indicada pelo Vite).
 
 ## 🌐 Rotas
 
@@ -79,8 +83,7 @@ FURIA-webchat-frontend/
 
 ## ⚠️ Observações
 
-- Certifique-se de que o back-end está em execução para que o chatbot funcione corretamente.
-- O front-end foi projetado para se comunicar com o back-end na porta `5001`.
+- O chatbot necessita que o back-end (hospedado no Render) esteja acessível e em execução para funcionar corretamente. A URL do backend é configurada via variável de ambiente `VITE_API_URL`.
 
 ## 🖤 Sobre a FURIA
 
