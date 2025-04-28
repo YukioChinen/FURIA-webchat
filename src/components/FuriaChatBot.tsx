@@ -34,7 +34,10 @@ export default function FuriaChatBot() {
     }));
 
     try {
-      const response = await fetch('https://furia-webchat-backend.vercel.app/api/chat', {
+      const baseUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+      const apiUrl = `${baseUrl}/api/chat`;
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,8 +49,14 @@ export default function FuriaChatBot() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        const errorMessage = errorData?.reply || errorData?.error || 'Erro na resposta da API';
+        let errorMessage = 'Erro na resposta da API';
+        try {
+            const errorData = await response.json(); 
+            errorMessage = errorData?.reply || errorData?.error || `Erro ${response.status}: ${response.statusText}`;
+        } catch (parseError) {
+            errorMessage = `Erro ${response.status}: ${response.statusText}`;
+            console.error("Failed to parse error response as JSON:", parseError);
+        }
         throw new Error(errorMessage);
       }
 
@@ -57,7 +66,7 @@ export default function FuriaChatBot() {
 
     } catch (err: any) {
       console.error("Erro ao buscar resposta do backend:", err);
-      const displayError = err.message || 'Falha ao conectar com o servidor.';
+      const displayError = err instanceof Error ? err.message : 'Falha ao conectar com o servidor.';
       setError(displayError);
       setMessages(prev => [...prev, {
           sender: 'bot', 
