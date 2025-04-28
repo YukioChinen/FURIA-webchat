@@ -12,7 +12,7 @@ export default function HomePage() {
       <h1 className="text-4xl font-bold mb-4 text-center">Bem-vindo ao FURIA CS ChatBot!</h1>
       <p className="text-lg text-gray-300 mb-6 text-center max-w-2xl">
         Converse com nossa IA especializada e tire suas dúvidas sobre o time de Counter-Strike da FURIA.
-        Resultados, escalação, próximos jogos e muito mais!
+        Resultados, escalação, e muito mais!
       </p>
       
       <div className="space-y-4 mb-8">
