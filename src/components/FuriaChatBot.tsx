@@ -34,7 +34,7 @@ export default function FuriaChatBot() {
     }));
 
     try {
-      const response = await fetch('http://localhost:5001/api/chat', {
+      const response = await fetch('https://furia-webchat-backend.vercel.app/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
