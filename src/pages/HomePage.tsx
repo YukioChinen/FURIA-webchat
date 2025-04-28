@@ -15,9 +15,9 @@ export default function HomePage() {
         Resultados, escalação, próximos jogos e muito mais!
       </p>
       
-      <div className="space-y-4 text-center mb-8">
+      <div className="space-y-4 mb-8">
         <h2 className="text-2xl font-semibold">Principais Benefícios:</h2>
-        <ul className="list-disc list-inside text-gray-400">
+        <ul className="list-disc list-outside text-gray-400">
           <li>Respostas instantâneas sobre o time de CS.</li>
           <li>Informações atualizadas (conforme contexto da IA).</li>
           <li>Interface amigável e temática da FURIA.</li>

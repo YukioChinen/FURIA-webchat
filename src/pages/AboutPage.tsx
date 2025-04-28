@@ -18,11 +18,22 @@ export default function AboutPage() {
           </section>
 
           <section>
+            <h2 className="text-2xl font-semibold text-blue-400 mb-2">Quem é a FURIA?</h2>
+            <p>
+            A FURIA Esports é uma das principais organizações brasileiras de esports, 
+            conhecida pelo seu espírito competitivo e estilo agressivo de jogo. 
+            Fundada em 2017, a equipe ganhou destaque mundial no Counter-Strike e se tornou 
+            símbolo de paixão, inovação e orgulho nacional.
+            </p>
+
+          </section>
+
+          <section>
             <h2 className="text-2xl font-semibold text-blue-400 mb-2">Desenvolvimento</h2>
             <p>
-              Desenvolvido por Enzo Yukio Chinen utilizando tecnologias modernas como React, 
-              Tailwind CSS para estilização, e a poderosa API do Google Gemini para 
-              gerar respostas inteligentes e contextuais. O backend foi construído com Node.js e Express.
+              Desenvolvido por <a href="https://www.linkedin.com/in/enzo-yukio-chinen/" target="_blank" rel="noopener noreferrer" class="text-blue-300">Enzo Yukio Chinen</a> utilizando 
+              React e Tailwind CSS para estilização. O backend foi construído com Node.js e Express, e a 
+              poderosa API do Google Gemini para gerar respostas inteligentes e contextuais.
             </p>
           </section>
 
