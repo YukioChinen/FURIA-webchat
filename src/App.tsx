@@ -31,8 +31,8 @@ function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait"> {/* Use 'wait' mode for cleaner transitions */}
-      <Routes location={location} key={location.pathname}> {/* Pass location and key */}
+    <AnimatePresence mode="wait" key={location.pathname}> {/* Use 'wait' mode for cleaner transitions */}
+      <Routes location={location}> {/* Pass location */}
         <Route path="/" element={
           <motion.div
             initial="initial"
