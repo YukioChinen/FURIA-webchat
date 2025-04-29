@@ -84,6 +84,7 @@ FURIA-webchat-frontend/
 ## ⚠️ Observações
 
 - O chatbot necessita que o back-end (hospedado no Render) esteja acessível e em execução para funcionar corretamente. A URL do backend é configurada via variável de ambiente `VITE_API_URL`.
+- Caso o chat demore para responder, pode ser que o back-end está no modo *sleeping*, demorando para responder a primeira pergunta.
 
 ## 🖤 Sobre a FURIA
 
