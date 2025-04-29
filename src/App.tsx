@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import FuriaChatBot from './components/FuriaChatBot';
 
-// Define animation variants for FADE effect
 const pageVariants = {
   initial: {
     opacity: 0,
@@ -19,20 +18,18 @@ const pageVariants = {
   }
 };
 
-// Define transition properties (can keep this or adjust duration)
 const pageTransition = {
   type: 'tween',
-  ease: 'easeInOut', // A smooth easing
-  duration: 0.4 // Slightly faster duration for fade
+  ease: 'easeInOut',
+  duration: 0.4
 };
 
-// Create a component to handle location for AnimatePresence
 function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait" key={location.pathname}> {/* Use 'wait' mode for cleaner transitions */}
-      <Routes location={location}> {/* Pass location */}
+    <AnimatePresence mode="wait" key={location.pathname}>
+      <Routes location={location}>
         <Route path="/" element={
           <motion.div
             initial="initial"
