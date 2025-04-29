@@ -3,9 +3,9 @@
 Este é o front-end de um desafio técnico. O projeto consiste em uma interface web interativa que utiliza um chatbot especializado na organização de e-sports FURIA.
 
 **Links Úteis:**
-- **Repositório do Código:** [https://github.com/YukioChinen/FURIA-webchat-frontend](FURIA Webchat Frontend)
-- **Repositório do Backend:** [https://github.com/YukioChinen/FURIA-webchat-backend](FURIA Webchat Backend)
-- **Site Online (Vercel):** [https://furia-webchat-frontend.vercel.app/](FURIA Chatbot)
+- **Repositório do Frontend:** [FURIA Webchat Frontend](https://github.com/YukioChinen/FURIA-webchat-frontend)
+- **Repositório do Backend:** [FURIA Webchat Backend](https://github.com/YukioChinen/FURIA-webchat-backend)
+- **Site Online (Vercel):** [FURIA Chatbot](https://furia-webchat-frontend.vercel.app/)
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -87,7 +87,7 @@ FURIA-webchat-frontend/
 
 ## 🖤 Sobre a FURIA
 
-A FURIA é uma das maiores organizações de e-sports do Brasil, com equipes em diversas modalidades como CS2 e Valorant. Este projeto foi desenvolvido com o objetivo de criar uma experiência interativa para os fãs da organização.
+A FURIA é uma das maiores organizações de e-sports do Brasil, com equipes em diversas modalidades. Este projeto foi desenvolvido com o objetivo de criar uma experiência interativa para os fãs da organização.
 
 ---
 
