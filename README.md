@@ -87,7 +87,7 @@ FURIA-webchat-frontend/
 
 ## 🖤 Sobre a FURIA
 
-A FURIA é uma das maiores organizações de e-sports do Brasil, com equipes em diversas modalidades como CS2 e Valorant. Este projeto foi desenvolvido com o objetivo de criar uma experiência interativa para os fãs da organização.
+A FURIA é uma das maiores organizações de e-sports do Brasil, com equipes em diversas modalidades. Este projeto foi desenvolvido com o objetivo de criar uma experiência interativa para os fãs da organização.
 
 ---
 
